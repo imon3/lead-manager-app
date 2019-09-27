@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Proptypes from 'prop-types';
-import { getLeads } from '../../actions/leads';
+import { getLeads, deleteLead } from '../../actions/leads';
 
 export class Leads extends Component {
   static propTypes = {
@@ -28,14 +28,20 @@ export class Leads extends Component {
           </thead>
           <tbody>
             {this.props.leads.map(lead => {
+              const { id, name, email, message } = lead;
               return (
-                <tr key={lead.id}>
-                  <td>{lead.id}</td>
-                  <td>{lead.name}</td>
-                  <td>{lead.email}</td>
-                  <td>{lead.message}</td>
+                <tr key={id}>
+                  <td>{id}</td>
+                  <td>{name}</td>
+                  <td>{email}</td>
+                  <td>{message}</td>
                   <td>
-                    <button className='btn btn-danger btn-sm'>Delete</button>
+                    <button
+                      onClick={() => this.props.deleteLead(id)}
+                      className='btn btn-danger btn-sm'
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               );
@@ -53,5 +59,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getLeads }
+  { getLeads, deleteLead }
 )(Leads);
