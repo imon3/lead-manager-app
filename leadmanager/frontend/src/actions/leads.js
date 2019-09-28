@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { createMessage } from './messages';
+import { createMessage, returnErrors } from './messages';
 
-import { GET_LEADS, DELETE_LEAD, ADD_LEAD, GET_ERRORS } from './types';
+import { GET_LEADS, DELETE_LEAD, ADD_LEAD } from './types';
 
 // get leads
 const getLeads = () => dispatch => {
@@ -13,7 +13,9 @@ const getLeads = () => dispatch => {
         payload: res.data
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      return dispatch(returnErrors(err.response.data, err.response.status));
+    });
 };
 
 // delete lead
@@ -42,14 +44,7 @@ const addLead = lead => dispatch => {
       });
     })
     .catch(err => {
-      const errors = {
-        msg: err.response.data,
-        status: err.response.status
-      };
-      dispatch({
-        type: GET_ERRORS,
-        payload: errors
-      });
+      return dispatch(returnErrors(err.response.data, err.response.status));
     });
 };
 
