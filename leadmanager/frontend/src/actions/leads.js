@@ -35,6 +35,7 @@ const addLead = lead => dispatch => {
   axios
     .post('/api/leads/', lead)
     .then(res => {
+      dispatch(createMessage({ addLead: 'Lead Added' }));
       dispatch({
         type: ADD_LEAD,
         payload: res.data
