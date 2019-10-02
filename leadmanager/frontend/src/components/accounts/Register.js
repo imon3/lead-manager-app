@@ -15,10 +15,10 @@ export class Register extends Component {
   };
 
   onChange = e => {
-      this.setState9{
-          [e.target.name] = e.target.value
-      }
-  }
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
 
   render() {
     const { username, email, password, password2 } = this.state;

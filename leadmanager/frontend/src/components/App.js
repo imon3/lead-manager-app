@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactDom from 'react-dom';
+import ReactDOM from 'react-dom';
 import {
   HashRouter as Router,
   Route,
@@ -13,9 +13,13 @@ import AlertTemplate from 'react-alert-template-basic';
 import Header from './layout/Header';
 import Dashboard from './leads/Dashboard';
 import Alerts from './layout/Alerts';
+import Login from './accounts/Login';
+import Register from './accounts/Register';
+import PrivateRoute from './common/PrivateRoute';
 
 import { Provider } from 'react-redux';
 import store from '../store';
+import { loadUser } from '../actions/auth';
 
 // Alert options
 const alertOptions = {
@@ -24,6 +28,10 @@ const alertOptions = {
 };
 
 class App extends Component {
+  componentDidMount() {
+    store.dispatch(loadUser);
+  }
+
   render() {
     return (
       <Provider store={store}>
@@ -34,7 +42,9 @@ class App extends Component {
               <Alerts />
               <div className='container'>
                 <Switch>
-                  <Route exact path='/' Component={Dashboard} />
+                  <PrivateRoute exact path='/' component={Dashboard} />
+                  <Route exact path='/register' component={Register} />
+                  <Route exact path='/login' component={Login} />
                 </Switch>
               </div>
             </>
@@ -45,4 +55,4 @@ class App extends Component {
   }
 }
 
-ReactDom.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));

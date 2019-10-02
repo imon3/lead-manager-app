@@ -13,10 +13,10 @@ export class Login extends Component {
   };
 
   onChange = e => {
-      this.setState9{
-          [e.target.name] = e.target.value
-      }
-  }
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
 
   render() {
     const { username, password } = this.state;
@@ -24,7 +24,7 @@ export class Login extends Component {
     return (
       <div className='col-md-6 m-auto'>
         <div className='card card-body mt-5'>
-          <h2 className='text-center'>Register</h2>
+          <h2 className='text-center'>Login</h2>
           <form onSubmit={this.onSubmit}>
             <div className='form-group'>
               <label>Username</label>
@@ -35,7 +35,7 @@ export class Login extends Component {
                 onChange={this.onChange}
                 value={username}
               />
-            </div>          
+            </div>
             <div className='form-group'>
               <label>Password</label>
               <input
@@ -52,7 +52,7 @@ export class Login extends Component {
               </button>
             </div>
             <p>
-              Don't have an account? <Link to='/register'>Login</Link>{' '}
+              Don't have an account? <Link to='/register'>Register</Link>
             </p>
           </form>
         </div>
