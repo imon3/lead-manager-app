@@ -54,7 +54,7 @@ export const login = (username, password) => dispatch => {
   };
 
   // Request Body
-  const body = JDON.strigify({ username, password });
+  const body = JSON.stringify({ username, password });
 
   axios
     .post('/api/auth/login', body, config)
