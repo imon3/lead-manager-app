@@ -5,7 +5,8 @@ import {
   USER_LOADING,
   AUTH_ERROR,
   LOGIN_SUCCESS,
-  LOGIN_FAIL
+  LOGIN_FAIL,
+  LOGOUT_SUCCESS
 } from './types';
 
 // Check Token & Load User
@@ -25,7 +26,7 @@ export const loadUser = () => (dispatch, getState) => {
 
   // If Token, Add To Headers Config
   if (token) {
-    config.headers['Authorizations'] = `Token ${token}`;
+    config.headers['Authorization'] = `Token ${token}`;
   }
 
   axios
@@ -37,7 +38,7 @@ export const loadUser = () => (dispatch, getState) => {
       });
     })
     .catch(err => {
-      dispatch(returnErrors(err.response.data, err.response, status));
+      dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: AUTH_ERROR
       });
@@ -65,9 +66,38 @@ export const login = (username, password) => dispatch => {
       });
     })
     .catch(err => {
-      dispatch(returnErrors(err.response.data, err.response, status));
+      dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: LOGIN_FAIL
       });
+    });
+};
+
+// Logout User
+export const logout = () => (dispatch, getState) => {
+  // Get Token From State
+  const token = getState().auth.token;
+
+  // Headers
+  const config = {
+    headers: {
+      'Content-type': 'application/json'
+    }
+  };
+
+  // If Token, Add To Headers Config
+  if (token) {
+    config.headers['Authorization'] = `Token ${token}`;
+  }
+
+  axios
+    .post('/api/auth/logout', null, config)
+    .then(res => {
+      dispatch({
+        type: LOGOUT_SUCCESS
+      });
+    })
+    .catch(err => {
+      dispatch(returnErrors(err.response.data, err.response.status));
     });
 };
